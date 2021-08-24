@@ -1,5 +1,7 @@
 # Análisis Estadístico de Datos
 
-## Trabajos Prácticos
+ITeDA, Instituto Sábato, UNSAM-CNEA
 
-Alvaro Concha - ITeDA, Instituto Sábato, UNSAM-CNEA
+## Trabajos Prácticos Resueltos
+
+Alvaro Concha
