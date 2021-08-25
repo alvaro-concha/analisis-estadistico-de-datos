@@ -57,7 +57,7 @@ def ej7():
         bargap=0.2,
     )
     # fig.show()
-    fig.show(renderer="notebook")
+    fig.show(renderer="plotly_mimetype")
 
 
 if __name__ == "__main__":
