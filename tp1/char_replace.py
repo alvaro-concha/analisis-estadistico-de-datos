@@ -12,7 +12,8 @@ def main_replace(filename):
         "é": "é",
         "ı́": "í",
         "ó": "ó",
-        "ú": "ú"
+        "ú": "ú",
+        "−": "-"
     }
     with open(filename, "r") as file :
         filedata = file.read()
