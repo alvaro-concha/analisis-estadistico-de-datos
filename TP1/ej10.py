@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 from scipy.stats import poisson
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 
 np.random.seed(42)
 
