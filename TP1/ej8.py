@@ -128,7 +128,7 @@ def ej8():
         col=2,
     )
     fig.update_layout(
-        width=1200, height=600, title_text="El jugador de dardos torpe", bargap=0.2
+        width=1000, height=500, title_text="El jugador de dardos torpe", bargap=0.2
     )
     fig.show(renderer="notebook")
 
