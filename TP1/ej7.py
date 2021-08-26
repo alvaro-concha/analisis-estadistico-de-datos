@@ -1,11 +1,4 @@
-"""Ejercicio 7: El número de la suerte
-
-Simular el lanzamiento de cinco dados y contar cuántas veces sale el número tres.
-
-Repetir la operación 1000 veces y construir un histograma de frecuencia con el número de ocurrencias del número tres.
-
-Comparar los datos simulados con una función de distribución binomial con parámetros $n$ y $p$ adecuados.
-"""
+"""Ejercicio 7: El número de la suerte"""
 import numpy as np
 import pandas as pd
 from scipy.stats import binom

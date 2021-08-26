@@ -1,15 +1,4 @@
-"""Ejercicio 6: Ayuda a Fermat
-
-La solución de Fermat al problema de la división justa de la bolsa es impráctica cuando quedan muchas rondas por jugar ya que implica contar todas las partidas que dan por ganador a uno de los dos jugadores.
-
-Afortunadamente con simulaciones Monte Carlo es posible encontrar una solución aproximada.
-
-Supongamos que un juego de 51 rondas es interrumpido en la ronda 25 y que Fermat ganó 15 rondas y Pascal 10.
-
-Simular el resto de las rondas para decidir cuál jugador gana la partida.
-
-Repetir este procedimiento 1000 veces para encontrar la división justa de la bolsa.
-"""
+"""Ejercicio 6: Ayuda a Fermat"""
 import numpy as np
 import pandas as pd
 from scipy.special import comb

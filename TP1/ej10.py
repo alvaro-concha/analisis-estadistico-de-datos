@@ -1,17 +1,4 @@
-"""Ejercicio 10 (Para entregar)
-
-Simular una variable aleatoria Y que sigue una distribución de Poisson con parámetro $\mu = 10$.
-
-Suponer que el resultado de la simulación es $Y = k$.
-
-A continuación simular $k$ variables de Bernoulli $X_i$ con $i = 1, \dots, k$ con parámetro $p = 0.7$.
-
-Calcular el valor de una nueva variable Z definida como $Z = \sum_{i=1}^k X_i$.
-
-Repetir la simulación 1000 veces, construir un histograma de frecuencia de $Z$ y comparar con una distribución de Poisson.
-
-*Nota: usar la distribución exacta sin ajustar los datos*.
-"""
+"""Ejercicio 10 (Para entregar)"""
 import numpy as np
 import pandas as pd
 from scipy.stats import poisson

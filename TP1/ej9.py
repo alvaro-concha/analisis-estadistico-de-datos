@@ -1,13 +1,4 @@
-"""Ejercicio 9
-
-Simular dos variables aleatorias $X_1$ y $X_2$ que siguen distribuciones de Poisson con parámetros $\mu_1 = 1$ y $\mu_2 = 2$ respectivamente.
-
-Calcular la variable $Y = X_1 + X_2$.
-
-Repetir la simulación 1000 veces.
-
-Graficar la distribución de la variable $Y$ y comparar con una distribución de probabilidad adecuada.
-"""
+"""Ejercicio 9"""
 import numpy as np
 import pandas as pd
 from scipy.stats import poisson

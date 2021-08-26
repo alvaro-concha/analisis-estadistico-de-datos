@@ -1,22 +1,4 @@
-"""Ejercicio 8: El jugador de dardos torpe
-
-Simular el lanzamiento de dardos considerando que:
-
-* el blanco interno de una diana estándar tiene un radio de 12.7 mm,
-* el blanco externo de 31.8 mm,
-* el anillo triple de 107 mm y
-* el anillo doble de 170 mm como muestra la figura 1.
-
-Un jugador torpe lanza dardos al azar dentro del anillo doble de la diana.
-
-Calcular la probabilidad que un tiro individual dé en el blanco exterior.
-
-Simular una corrida de 100 lanzamientos y contar cuántos dardos dan en el blanco exterior.
-
-Simular 1000 corridas y construir un histograma de frecuencia.
-
-Comparar con una distribución de Poisson.
-"""
+"""Ejercicio 8: El jugador de dardos torpe"""
 import numpy as np
 import pandas as pd
 from scipy.stats import poisson
