@@ -15,7 +15,7 @@ np.random.seed(42)
 
 
 class LanzarDados:
-    """ "Simulacion de un lanzamiento de dados."""
+    """Simulacion de un lanzamiento de dados."""
 
     def __init__(self, n_dados=5, n_target=3):
         self.n_dados = n_dados
@@ -28,9 +28,8 @@ class LanzarDados:
         }
 
 
-def distribucion_exacta(n=5, p=1 / 6):
+def distribucion_binomial(n=5, p=1 / 6):
     """Distribucion exacta (binomial), del problema de lanzamiento de dados."""
-
     k = np.arange(n + 1)
     return k, binom(n=n, p=p).pmf(k)
 
@@ -39,11 +38,11 @@ def ej7():
     """Ejercicio 7."""
     n_ensemble = 1000
     resultados = []
-    for n in range(n_ensemble):
+    for _ in range(n_ensemble):
         juego = LanzarDados()
         resultados.append(juego())
     resultados = pd.DataFrame(resultados)
-    k, dist = distribucion_exacta()
+    k, dist = distribucion_binomial()
     fig = go.Figure()
     fig.add_trace(
         go.Histogram(x=resultados["k"], histnorm="probability", name="Simulación")

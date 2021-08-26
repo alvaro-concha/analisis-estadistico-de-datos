@@ -12,13 +12,13 @@ Repetir este procedimiento 1000 veces para encontrar la división justa de la bo
 """
 import numpy as np
 import pandas as pd
-from math import comb
+from scipy.special import comb
 
 np.random.seed(42)
 
 
 class DivisionJusta:
-    """ "Simulacion del problema de division justa de la bolsa en una partida interrumpida."""
+    """Simulacion del problema de division justa de la bolsa en una partida interrumpida."""
 
     def __init__(self, n_rondas=51, n_inter=25, F_win_inter=15, P_win_inter=10):
         self.n_rondas = n_rondas
@@ -39,7 +39,6 @@ class DivisionJusta:
 
 def resultado_exacto(n_rondas=51, n_inter=25, F_win_inter=15, P_win_inter=10):
     """Division justa exacta, surge de contar todas las realizaciones posibles usando el triangulo de Pascal."""
-
     n_rest = n_rondas - n_inter
     r = n_rondas // 2 + 1 - F_win_inter
     s = n_rondas // 2 + 1 - P_win_inter
@@ -54,7 +53,7 @@ def ej6():
     """Ejercicio 6."""
     n_ensemble = 1000
     resultados = []
-    for n in range(n_ensemble):
+    for _ in range(n_ensemble):
         juego = DivisionJusta()
         resultados.append(juego())
     resultados = pd.DataFrame(resultados)
