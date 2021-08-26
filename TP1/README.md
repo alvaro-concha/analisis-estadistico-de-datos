@@ -1,4 +1,4 @@
-# Ver Notebook aquí:
+# Ver Notebook aquí
 
 Ver la resolución del TP1 en el siguiente link:
 
