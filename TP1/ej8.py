@@ -64,7 +64,7 @@ def ej8():
     fig.add_trace(go.Scatter(x=k, y=dist, name="Poisson"), row=1, col=1)
     fig.update_traces(opacity=0.75)
     fig.update_xaxes(
-        title_text="Ocurrencias",
+        title_text="Eventos",
         row=1,
         col=1,
     )

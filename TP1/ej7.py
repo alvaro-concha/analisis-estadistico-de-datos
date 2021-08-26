@@ -44,7 +44,7 @@ def ej7():
     fig.update_traces(opacity=0.75)
     fig.update_layout(
         title_text="El número de la suerte",
-        xaxis_title_text="Ocurrencias",
+        xaxis_title_text="Eventos",
         yaxis_title_text="Probabilidad",
         bargap=0.2,
     )

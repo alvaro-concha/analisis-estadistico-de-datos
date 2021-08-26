@@ -48,7 +48,7 @@ def ej9():
     fig.update_xaxes(range=[0, 15])
     fig.update_layout(
         title_text="Suma de variables aleatorias de Poisson",
-        xaxis_title_text="Ocurrencias",
+        xaxis_title_text="Eventos",
         yaxis_title_text="Probabilidad",
         bargap=0.2,
     )
