@@ -8,7 +8,7 @@ Alvaro Concha
 
 ## TP1 - Probabilidad discreta
 
-### Notebook del TP1
+### Notebook del TP1 - Completo
 
 https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP1/TP1.ipynb
 
