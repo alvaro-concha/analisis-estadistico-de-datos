@@ -17,10 +17,7 @@ class CalcularZ:
     def __call__(self):
         k = np.random.poisson(lam=self.mu)
         z = np.random.binomial(n=1, p=self.p, size=k).sum()
-        return {
-            "z": z,
-            "k": k,
-        }
+        return {"z": z, "k": k, "p": self.p}
 
 
 def distribucion_poisson(mu=10, k_max=100):
@@ -29,7 +26,7 @@ def distribucion_poisson(mu=10, k_max=100):
     return k, poisson(mu=mu).pmf(k)
 
 
-def graficar_slider(fig, ps=np.linspace(0.1, 0.9, 5)):
+def graficar_slider(fig, ps):
     """Crear un slider para un conjunto de figuras."""
     fig.data[0].visible = True
     fig.data[1].visible = True
@@ -39,7 +36,6 @@ def graficar_slider(fig, ps=np.linspace(0.1, 0.9, 5)):
             method="update",
             args=[
                 {"visible": [False] * len(fig.data)},
-                {"title": f"Simulación con p={ps[i]:.1f}"},
                 {"label": f"p={ps[i]:.1f}"},
             ],
         )
@@ -63,30 +59,22 @@ def graficar_slider(fig, ps=np.linspace(0.1, 0.9, 5)):
         fig["layout"]["sliders"][0]["steps"][i]["label"] = f"{p:.1f}"
 
 
-def ej10():
-    """Ejercicio 10."""
-    mu = 10
-    ps = np.linspace(0.1, 0.9, 5)
-    n_ensemble = 1000
+def graficar_ej10(mu, ps, resultados):
+    """ "Graficar el ejercicio 10."""
     fig = go.Figure()
     for p in ps:
-        resultados = []
-        for _ in range(n_ensemble):
-            juego = CalcularZ(mu=mu, p=p)
-            resultados.append(juego())
-        resultados = pd.DataFrame(resultados)
         fig.add_trace(
             go.Histogram(
-                x=resultados["z"],
+                x=resultados[resultados["p"] == p]["z"],
                 histnorm="probability",
                 name=f"Simulación con p={p:.1f}",
                 visible=False,
             )
         )
         k, dist = distribucion_poisson(mu=mu * p)
-        fig.add_trace(go.Scatter(x=k, y=dist, name=f"Poiss(mu*p)", visible=False))
+        fig.add_trace(go.Scatter(x=k, y=dist, name="Pois(mu p)", visible=False))
     k, dist = distribucion_poisson(mu=mu)
-    fig.add_trace(go.Scatter(x=k, y=dist, name=f"Poiss(mu={mu})"))
+    fig.add_trace(go.Scatter(x=k, y=dist, name="Pois(mu)"))
     fig.update_xaxes(
         title_text="Eventos",
         range=[0, 30],
@@ -97,11 +85,25 @@ def ej10():
     )
     fig.update_traces(opacity=0.75)
     fig.update_layout(
-        title_text="Calcular la variable aleatoria Z",
+        title_text=f"Simulación de la variable aleatoria Z, usando mu={mu} y diferentes valores de p",
         bargap=0.2,
     )
     graficar_slider(fig, ps=ps)
-    fig.show(renderer="notebook")
+    fig.show(renderer="plotly_mimetype")
+
+
+def ej10():
+    """Ejercicio 10."""
+    mu = 10
+    ps = np.linspace(0.1, 1.0, 10)
+    n_ensemble = 1000
+    resultados = []
+    for p in ps:
+        for _ in range(n_ensemble):
+            juego = CalcularZ(mu=mu, p=p)
+            resultados.append(juego())
+    resultados = pd.DataFrame(resultados)
+    graficar_ej10(mu=mu, ps=ps, resultados=resultados)
 
 
 if __name__ == "__main__":

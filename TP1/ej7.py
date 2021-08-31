@@ -48,7 +48,7 @@ def ej7():
         yaxis_title_text="Probabilidad",
         bargap=0.2,
     )
-    fig.show(renderer="notebook")
+    fig.show(renderer="plotly_mimetype")
 
 
 if __name__ == "__main__":

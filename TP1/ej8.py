@@ -130,7 +130,7 @@ def ej8():
     fig.update_layout(
         width=1000, height=500, title_text="El jugador de dardos torpe", bargap=0.2
     )
-    fig.show(renderer="notebook")
+    fig.show(renderer="plotly_mimetype")
 
 
 if __name__ == "__main__":
