@@ -89,7 +89,7 @@ def graficar_ej10(mu, ps, resultados):
         bargap=0.2,
     )
     graficar_slider(fig, ps=ps)
-    fig.show(renderer="plotly_mimetype")
+    fig.show(renderer="notebook")
 
 
 def ej10():
