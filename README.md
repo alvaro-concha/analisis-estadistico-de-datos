@@ -2,9 +2,9 @@
 
 ITeDA, Instituto Sábato, UNSAM-CNEA
 
-## Trabajos Prácticos Resueltos
-
 Alvaro Concha
+
+# Trabajos Prácticos Resueltos
 
 ## TP1 - Probabilidad discreta
 
