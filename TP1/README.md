@@ -2,7 +2,7 @@
 
 Ver la resolución del TP1 en el siguiente link:
 
-https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/3fa6e677e6803ad2ca20e38c39ed79797791e9d5/TP1/CONCHA-TP1.ipynb
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP1/CONCHA-TP1.ipynb
 
 # Código del Ejercicio 10
 

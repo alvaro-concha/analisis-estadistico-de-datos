@@ -10,8 +10,8 @@ Alvaro Concha
 
 ### Notebook del TP1 - Completo
 
-https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/3fa6e677e6803ad2ca20e38c39ed79797791e9d5/TP1/CONCHA-TP1.ipynb
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP1/CONCHA-TP1.ipynb
 
 ### Notebook del TP1 - Ejercicio 10
 
-https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/3fa6e677e6803ad2ca20e38c39ed79797791e9d5/TP1-Ej10/CONCHA-TP1-Ej10.ipynb
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP1-Ej10/CONCHA-TP1-Ej10.ipynb
