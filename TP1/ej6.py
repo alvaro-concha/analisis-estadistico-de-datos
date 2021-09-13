@@ -46,8 +46,9 @@ def ej6():
         juego = DivisionJusta()
         resultados.append(juego())
     resultados = pd.DataFrame(resultados)
-    print("Variables Promedios\n", resultados.mean(axis=0))
-    print("Resultado exacto\n", f"Division {resultado_exacto():.3f}")
+    print("Division justa, de acuerdo al:")
+    print(f"Resultado simulacion\t{resultados['Division'].mean(axis=0):.3f}")
+    print(f"Resultado exacto\t{resultado_exacto():.3f}")
 
 
 if __name__ == "__main__":

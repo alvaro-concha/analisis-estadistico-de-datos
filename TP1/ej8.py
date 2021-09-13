@@ -33,7 +33,7 @@ class LanzarDardos:
 def distribucion_poisson(r_doble=170, r_int=12.7, r_ext=31.8, n_lanzamientos=100):
     """Distribucion exacta (Poisson), del problema de lanzamiento de dardos."""
     mu = n_lanzamientos * (r_ext ** 2 - r_int ** 2) / r_doble ** 2
-    print(f"Promedio teorico {mu:.2f}")
+    print(f"Promedio teorico\t{mu:.2f}")
     k = np.arange(n_lanzamientos)
     return k, poisson(mu=mu).pmf(k)
 
@@ -49,7 +49,7 @@ def ej8():
         juego = LanzarDardos()
         resultados.append(juego())
     resultados = pd.DataFrame(resultados)
-    print(f'Promedio simulacion {resultados["k"].mean():.2f}')
+    print(f"Promedio simulacion\t{resultados['k'].mean():.2f}")
     k, dist = distribucion_poisson()
     fig = make_subplots(rows=1, cols=2)
     fig.add_trace(

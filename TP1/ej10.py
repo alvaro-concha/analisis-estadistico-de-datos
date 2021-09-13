@@ -60,7 +60,7 @@ def graficar_slider(fig, ps):
 
 
 def graficar_ej10(mu, ps, resultados):
-    """ "Graficar el ejercicio 10."""
+    """Graficar el ejercicio 10."""
     fig = go.Figure()
     for p in ps:
         fig.add_trace(
@@ -71,10 +71,10 @@ def graficar_ej10(mu, ps, resultados):
                 visible=False,
             )
         )
-        k, dist = distribucion_poisson(mu=mu * p)
-        fig.add_trace(go.Scatter(x=k, y=dist, name="Pois(mu p)", visible=False))
+        k, dist = distribucion_poisson(mu=p * mu)
+        fig.add_trace(go.Scatter(x=k, y=dist, name="Poisson(p mu)", visible=False))
     k, dist = distribucion_poisson(mu=mu)
-    fig.add_trace(go.Scatter(x=k, y=dist, name="Pois(mu)"))
+    fig.add_trace(go.Scatter(x=k, y=dist, name="Poisson(mu)"))
     fig.update_xaxes(
         title_text="Eventos",
         range=[0, 30],
