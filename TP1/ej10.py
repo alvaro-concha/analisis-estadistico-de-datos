@@ -28,8 +28,9 @@ def distribucion_poisson(mu=10, k_max=100):
 
 def graficar_slider(fig, ps):
     """Crear un slider para un conjunto de figuras."""
-    fig.data[0].visible = True
-    fig.data[1].visible = True
+    default_idx = 6
+    fig.data[2 * default_idx].visible = True
+    fig.data[2 * default_idx + 1].visible = True
     steps = []
     for i in range(len(ps)):
         step = dict(
@@ -49,6 +50,7 @@ def graficar_slider(fig, ps):
             currentvalue={"prefix": "p = "},
             steps=steps,
             pad={"t": 50},
+            active=default_idx,
         )
     ]
 
