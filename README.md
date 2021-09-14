@@ -15,3 +15,11 @@ https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/
 ### Notebook del TP1 - Ejercicio 10
 
 https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP1-Ej10/CONCHA-TP1-Ej10.ipynb
+
+### Notebook del TP2 - Completo
+
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP2/CONCHA-TP2.ipynb
+
+### Notebook del TP2 - Ejercicio 7
+
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP2-Ej7/CONCHA-TP2-Ej7.ipynb
