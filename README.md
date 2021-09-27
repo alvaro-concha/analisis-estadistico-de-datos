@@ -10,16 +10,16 @@ Alvaro Concha
 
 ### Notebook del TP1 - Completo
 
-https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP1/CONCHA-TP1.ipynb
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP1/CONCHA-TP1.ipynb?flush_cache=true
 
 ### Notebook del TP1 - Ejercicio 10
 
-https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP1-Ej10/CONCHA-TP1-Ej10.ipynb
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP1-Ej10/CONCHA-TP1-Ej10.ipynb?flush_cache=true
 
 ### Notebook del TP2 - Completo
 
-https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP2/CONCHA-TP2.ipynb
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP2/CONCHA-TP2.ipynb?flush_cache=true
 
 ### Notebook del TP2 - Ejercicio 7
 
-https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP2-Ej7/CONCHA-TP2-Ej7.ipynb
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP2-Ej7/CONCHA-TP2-Ej7.ipynb?flush_cache=true
