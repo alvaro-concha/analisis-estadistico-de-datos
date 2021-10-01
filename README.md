@@ -23,3 +23,11 @@ https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/
 ### Notebook del TP2 - Ejercicio 7
 
 https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP2-Ej7/CONCHA-TP2-Ej7.ipynb?flush_cache=true
+
+### Notebook del TP3 - Completo
+
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP3/CONCHA-TP3.ipynb?flush_cache=true
+
+### Notebook del TP3 - Ejercicio 7
+
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP3-Ej7/CONCHA-TP3-Ej7.ipynb?flush_cache=true

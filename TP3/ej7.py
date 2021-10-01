@@ -1,4 +1,4 @@
-"""Ejercicio 1"""
+"""Ejercicio 7 (Para entregar)"""
 import numpy as np
 from matplotlib.path import Path
 import matplotlib.pyplot as plt
