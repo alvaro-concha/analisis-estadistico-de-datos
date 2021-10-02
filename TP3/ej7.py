@@ -9,16 +9,16 @@ from IPython.display import display
 np.random.seed(42)
 
 
+def get_mu_X(mu1, mu2):
+    """Retorna vector de medias."""
+    return np.array([mu1, mu2])
+
+
 def get_Sigma_X(sigma1, sigma2, rho):
     """Retorna la matriz de covarianza."""
     return np.array(
         [[sigma1 ** 2, rho * sigma1 * sigma2], [rho * sigma1 * sigma2, sigma2 ** 2]]
     )
-
-
-def get_mu_X(mu1, mu2):
-    """Retorna vector de medias."""
-    return np.array([mu1, mu2])
 
 
 def get_mu_2_prime(x1, mu1, mu2, sigma1, sigma2, rho):
@@ -32,11 +32,13 @@ def get_sigma_2_prime(sigma2, rho):
 
 
 def get_x1_x2(mu1, mu2, sigma1, sigma2, rho, n):
-    """Genera variable aleatoria (x1, x2) binormal."""
+    """Retorna variable aleatoria binormal (x1, x2)."""
     x1 = np.random.normal(size=n, loc=mu1, scale=sigma1)
     x2 = np.random.normal(
-        loc=get_mu_2_prime(x1, mu1, mu2, sigma1, sigma2, rho),
-        scale=get_sigma_2_prime(sigma2, rho),
+        loc=get_mu_2_prime(
+            x1=x1, mu1=mu1, mu2=mu2, sigma1=sigma1, sigma2=sigma2, rho=rho
+        ),
+        scale=get_sigma_2_prime(sigma2=sigma2, rho=rho),
     )
     return x1, x2
 
@@ -44,28 +46,30 @@ def get_x1_x2(mu1, mu2, sigma1, sigma2, rho, n):
 def plot_ej7(mu1, mu2, sigma1, sigma2, rho, n, r):
     """Grafica Ejercicio 7."""
     x1, x2 = get_x1_x2(mu1=mu1, mu2=mu2, sigma1=sigma1, sigma2=sigma2, rho=rho, n=n)
-    Sigma_X = get_Sigma_X(sigma1=sigma1, sigma2=sigma2, rho=rho)
     mu_X = get_mu_X(mu1=mu1, mu2=mu2)
+    Sigma_X = get_Sigma_X(sigma1=sigma1, sigma2=sigma2, rho=rho)
     L = np.linalg.cholesky(Sigma_X)
     t = np.linspace(0, 2 * np.pi, 1000)
-    c = np.column_stack([np.cos(t), np.sin(t)])
-    e = r * c @ L.T + mu_X
-    porcentaje = Path(e).contains_points(np.column_stack([x1, x2])).sum() / n * 100.0
-    probabilidad = (1 - np.exp(-0.5 * r ** 2)) * 100.0
+    circulo = np.column_stack([np.cos(t), np.sin(t)])
+    elipse = r * circulo @ L.T + mu_X
+    probabilidad_aproximada = (
+        Path(elipse).contains_points(np.column_stack([x1, x2])).sum() / n * 100.0
+    )
+    probabilidad_exacta = (1 - np.exp(-0.5 * r ** 2)) * 100.0
     sns.set_context("paper", font_scale=1.5)
     g = sns.jointplot(x=x1, y=x2, alpha=5 / np.sqrt(n), height=8)
     ax = g.ax_joint
-    ax.plot(*e.T, alpha=0.9, c="k")
+    ax.plot(*elipse.T, alpha=0.9, c="k")
     text = (
         rf"Superficie {r}$\sigma$"
         "\n"
-        f"Porcentaje de puntos {porcentaje:.2f}%"
+        f"Prob. aproximada {probabilidad_aproximada:.2f}%"
         "\n"
-        f"Probabilidad exacta {probabilidad:.2f}%"
+        f"Prob. exacta         {probabilidad_exacta:.2f}%"
     )
     ax.text(x=0.05, y=1.0, s=text, ha="left", va="top", transform=ax.transAxes)
     ax.set_xlim(-1, 5.5)
-    ax.set_ylim(-1.5, 4.5)
+    ax.set_ylim(-1.75, 4.75)
     ax.set_xlabel(r"$x_1$")
     ax.set_ylabel(r"$x_2$")
     plt.show()
