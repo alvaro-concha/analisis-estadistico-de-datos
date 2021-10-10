@@ -61,7 +61,7 @@ def plot_ej7(mu1, mu2, sigma1, sigma2, rho, n, r):
     ax = g.ax_joint
     ax.plot(*elipse.T, alpha=0.9, c="k")
     text = (
-        rf"Superficie {r}$\sigma$"
+        rf"Elipse                        {r}$\sigma$"
         "\n"
         f"Prob. aproximada {probabilidad_aproximada:.2f}%"
         "\n"
