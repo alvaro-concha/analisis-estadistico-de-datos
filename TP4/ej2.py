@@ -1,39 +1,56 @@
 """Ejercicio 2"""
 import numpy as np
-import plotly.graph_objects as go
-from plotly.graph_objs.layout import XAxis
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+import seaborn as sns
+import ipywidgets as widgets
+from IPython.display import display
+
+np.random.seed(42)
+
+
+def plot_ej2(n_realizaciones, n):
+    """Grafica Ejercicio 2."""
+    x = np.random.normal(size=(n_realizaciones, n))
+    media = np.mean(x, axis=1)
+    x_lims = (-4.0, 4.0)
+    valores = np.linspace(*x_lims, 1000)
+    distribucion = norm(loc=0, scale=1 / np.sqrt(n)).pdf(x=valores)
+    sns.set_context("paper", font_scale=1.5)
+    plt.figure(figsize=(8, 4))
+    plt.hist(media, density=True, alpha=0.9, label="Histograma")
+    plt.plot(valores, distribucion, alpha=0.9, label="Distribución")
+    plt.legend()
+    plt.xlabel(r"$\bar{X}$")
+    plt.ylabel("Densidad de probabilidad")
+    plt.xlim(*x_lims)
+    plt.ylim(0, 4.0)
+    plt.show()
+    plt.close()
 
 
 def ej2():
     """Ejercicio 2."""
-    r = np.arange(0, 4.1, 0.1)
-    acum_r = (1 - np.exp(-0.5 * r ** 2)) * 100.0
-    q = np.arange(0, 16.5, 0.5)
-    acum_q = (1 - np.exp(-0.5 * q)) * 100.0
-    layout = go.Layout(
-        xaxis=XAxis(
-            title="r",
-            titlefont_color="blue",
-            tickfont_color="blue",
-        ),
-        xaxis2=XAxis(
-            title="q",
-            overlaying="x",
-            side="top",
-            titlefont_color="red",
-            tickfont_color="red",
-        ),
-        yaxis_title="Probabilidad acumulada (%)",
+    n_realizaciones = widgets.IntSlider(
+        description="n_realizaciones", value=1000, min=1000, max=10000, step=1000
     )
-    fig = go.Figure(layout=layout)
-    fig.add_trace(
-        go.Scatter(x=q, y=acum_q, name="Acumulada q", line_color="red", xaxis="x2")
+    n = widgets.IntSlider(description="n", value=3, min=1, max=100, step=1)
+    parameters = {
+        "n_realizaciones": n_realizaciones,
+        "n": n,
+    }
+    out = widgets.interactive_output(plot_ej2, parameters)
+    title = widgets.Label(
+        "Seleccionar parámetros",
+        layout=widgets.Layout(display="flex", justify_content="center"),
     )
-    fig.add_trace(
-        go.Scatter(x=r, y=acum_r, name="Acumulada r", line_color="blue", xaxis="x1")
+    sliders = [title, *parameters.values(), out]
+    display(
+        widgets.VBox(
+            sliders,
+            layout=widgets.Layout(width="100%", display="flex", align_items="center"),
+        )
     )
-    fig.update_traces(opacity=0.9)
-    fig.show(renderer="notebook")
 
 
 if __name__ == "__main__":

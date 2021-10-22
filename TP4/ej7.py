@@ -1,107 +1,78 @@
 """Ejercicio 7 (Para entregar)"""
 import numpy as np
-from matplotlib.path import Path
 import matplotlib.pyplot as plt
 import seaborn as sns
 import ipywidgets as widgets
 from IPython.display import display
 
-np.random.seed(42)
 
-
-def get_mu_X(mu1, mu2):
-    """Retorna vector de medias."""
-    return np.array([mu1, mu2])
-
-
-def get_Sigma_X(sigma1, sigma2, rho):
+def get_Sigma(sigma1, sigma2, rho):
     """Retorna la matriz de covarianza."""
     return np.array(
         [[sigma1 ** 2, rho * sigma1 * sigma2], [rho * sigma1 * sigma2, sigma2 ** 2]]
     )
 
 
-def get_mu_2_prime(x1, mu1, mu2, sigma1, sigma2, rho):
-    """Retorna la media de la distribucion condicional."""
-    return mu2 + rho * (x1 - mu1) * sigma2 / sigma1
-
-
-def get_sigma_2_prime(sigma2, rho):
-    """Retorna la varianza de la distribucion condicional."""
-    return np.sqrt((1 - rho ** 2) * sigma2 ** 2)
-
-
-def get_x1_x2(mu1, mu2, sigma1, sigma2, rho, n):
-    """Retorna variable aleatoria binormal (x1, x2)."""
-    x1 = np.random.normal(size=n, loc=mu1, scale=sigma1)
-    x2 = np.random.normal(
-        loc=get_mu_2_prime(
-            x1=x1, mu1=mu1, mu2=mu2, sigma1=sigma1, sigma2=sigma2, rho=rho
-        ),
-        scale=get_sigma_2_prime(sigma2=sigma2, rho=rho),
+def get_J(mus, Sigma_inv, x):
+    """Retorna la funcion de costo."""
+    return np.sum(
+        (x[:, np.newaxis] - mus).T @ Sigma_inv * (x[:, np.newaxis] - mus).T, axis=1
     )
-    return x1, x2
 
 
-def plot_ej7(mu1, mu2, sigma1, sigma2, rho, n, r):
+def plot_ej7(sigma1, sigma2, rho, x1, x2):
     """Grafica Ejercicio 7."""
-    x1, x2 = get_x1_x2(mu1=mu1, mu2=mu2, sigma1=sigma1, sigma2=sigma2, rho=rho, n=n)
-    mu_X = get_mu_X(mu1=mu1, mu2=mu2)
-    Sigma_X = get_Sigma_X(sigma1=sigma1, sigma2=sigma2, rho=rho)
-    L = np.linalg.cholesky(Sigma_X)
-    t = np.linspace(0, 2 * np.pi, 1000)
-    circulo = np.column_stack([np.cos(t), np.sin(t)])
-    elipse = r * circulo @ L.T + mu_X
-    probabilidad_aproximada = (
-        Path(elipse).contains_points(np.column_stack([x1, x2])).sum() / n * 100.0
-    )
-    probabilidad_exacta = (1 - np.exp(-0.5 * r ** 2)) * 100.0
+    num_grid = 100
+    mu1_lims = (-2.5, 17.5)
+    mu2_lims = (2.5, 22.5)
+    mu1 = np.linspace(*mu1_lims, num_grid)
+    mu2 = np.linspace(*mu2_lims, num_grid)
+    mus = np.meshgrid(mu1, mu2)
+    mus = np.vstack([mus[0].ravel(), mus[1].ravel()])
+    Sigma = get_Sigma(sigma1=sigma1, sigma2=sigma2, rho=rho)
+    x = np.array([x1, x2])
+    J = get_J(mus=mus, Sigma_inv=np.linalg.inv(Sigma), x=x)
+    plt.figure(figsize=(8, 8))
     sns.set_context("paper", font_scale=1.5)
-    g = sns.jointplot(x=x1, y=x2, alpha=5 / np.sqrt(n), height=8)
-    ax = g.ax_joint
-    ax.plot(*elipse.T, alpha=0.9, c="k")
-    text = (
-        rf"Superficie {r}$\sigma$"
-        "\n"
-        f"Prob. aproximada {probabilidad_aproximada:.2f}%"
-        "\n"
-        f"Prob. exacta         {probabilidad_exacta:.2f}%"
+    J = J.reshape((num_grid, num_grid))
+    mus = mus.reshape((2, num_grid, num_grid))
+    contour = plt.contour(
+        *mus, J, levels=(1, 4, 9, 16), colors=["r", "g", "b", "brown"]
     )
-    ax.text(x=0.05, y=1.0, s=text, ha="left", va="top", transform=ax.transAxes)
-    ax.set_xlim(-1, 5.5)
-    ax.set_ylim(-1.75, 4.75)
-    ax.set_xlabel(r"$x_1$")
-    ax.set_ylabel(r"$x_2$")
+    plt.clabel(contour)
+    plt.scatter(x1, x2, c="k", s=1)
+    plt.text(x1, x2, "0", ha="center", va="center")
+    plt.title(r"Función de costo $J(\mathbf{\mu})$")
+    plt.xlim(*mu1_lims)
+    plt.ylim(*mu2_lims)
+    plt.xlabel(r"$\mu_1$")
+    plt.ylabel(r"$\mu_2$")
     plt.show()
     plt.close()
 
 
 def ej7():
     """Ejercicio 7."""
-    mu1 = widgets.FloatSlider(description="mu1", value=2.3, min=-0.5, max=5.0)
-    mu2 = widgets.FloatSlider(description="mu2", value=1.5, min=-0.5, max=5.0)
-    sigma1 = widgets.FloatSlider(description="sigma1", value=1.2, min=0.1, max=2.0)
-    sigma2 = widgets.FloatSlider(description="sigma2", value=0.5, min=0.1, max=2.0)
-    rho = widgets.FloatSlider(description="rho", value=0.7, min=-0.9, max=0.9)
-    n = widgets.IntSlider(description="n", value=1000, min=1000, max=10000, step=1000)
-    r = widgets.FloatSlider(description="r", value=1.0, min=0.5, max=4.0, step=0.5)
-    out = widgets.interactive_output(
-        plot_ej7,
-        {
-            "mu1": mu1,
-            "mu2": mu2,
-            "sigma1": sigma1,
-            "sigma2": sigma2,
-            "rho": rho,
-            "n": n,
-            "r": r,
-        },
+    sigma1 = widgets.FloatSlider(description="sigma1", value=2.3, min=0.1, max=3.0)
+    sigma2 = widgets.FloatSlider(description="sigma2", value=1.7, min=0.1, max=3.0)
+    rho = widgets.FloatSlider(
+        description="rho", value=-0.78, min=-0.99, max=0.99, step=0.01
     )
+    x1 = widgets.FloatSlider(description="x1", value=7.9, min=0.1, max=20.0)
+    x2 = widgets.FloatSlider(description="x2", value=13.4, min=0.1, max=20.0)
+    parameters = {
+        "sigma1": sigma1,
+        "sigma2": sigma2,
+        "rho": rho,
+        "x1": x1,
+        "x2": x2,
+    }
+    out = widgets.interactive_output(plot_ej7, parameters)
     title = widgets.Label(
         "Seleccionar parámetros",
         layout=widgets.Layout(display="flex", justify_content="center"),
     )
-    sliders = [title, mu1, mu2, sigma1, sigma2, rho, n, r]
+    sliders = [title, *parameters.values()]
     display(
         widgets.HBox(
             [out, widgets.VBox(sliders)],
