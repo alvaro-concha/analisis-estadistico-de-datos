@@ -3,6 +3,7 @@ import numpy as np
 
 
 def ej1():
+    """Ejercicio 1."""
     x = (18.9, 17.4, 20.8, 18.3, 17.0)
     media_muestral = np.mean(x)
     mediana = np.median(x)
