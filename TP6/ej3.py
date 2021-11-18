@@ -1,71 +1,66 @@
 """Ejercicio 3"""
 import numpy as np
-from scipy.stats import norm
+from scipy.stats import norm, chisquare, chi2
+from scipy.integrate import romberg
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
 import seaborn as sns
 
 
-np.random.seed(42)
+def my_chisquare(f_obs, f_exp):
+    """Calcula el chi-cuadrado de una distribución normal."""
+    chisq = np.sum((f_obs - f_exp) ** 2 / f_exp)
+    p = 1.0 - chi2.cdf(chisq, len(f_obs))
+    return chisq, p
 
 
 def ej3():
     """Ejercicio 3."""
-    n = 2
-    n_realizaciones = 1000
-    sigma = 1.0
-    q = 1.0
-    x = np.random.normal(size=(n_realizaciones, n))
-    x_bar = x.mean(axis=1)
-    t = q * sigma / np.sqrt(n)
-    cobertura = 100.0 * np.sum(np.abs(x_bar) <= t) / n_realizaciones
-    print(f"Porcentaje de cobertura aproximada {cobertura:.0f}%")
+    x = np.loadtxt("chi2.dat")
+    num_cuts = 20
+    num_discarded = 2
+    percentile_cuts = np.linspace(0, 100, num_cuts)
+    if num_discarded == 0:
+        observed, bins = np.histogram(x, bins=np.percentile(x, percentile_cuts))
+    else:
+        observed, bins = np.histogram(
+            x, bins=np.percentile(x, percentile_cuts[num_discarded:-num_discarded])
+        )
+    domain = 0.5 * (bins[1:] + bins[:-1])
+    dx = bins[1:] - bins[:-1]
+    n = len(x)
+    expected = np.vectorize(romberg)(norm.pdf, bins[:-1], bins[1:]) * n
 
-    plt.figure(figsize=(8, 8))
+    chisq, p = chisquare(f_obs=observed, f_exp=expected)
+    print(f"scipy: statistic {chisq:.2f}, p-value {p * 100.0:.1e}%")
+
+    chisq, p = my_chisquare(f_obs=observed, f_exp=expected)
+    print(f"nuestra: statistic {chisq:.2f}, p-value {p * 100.0:.1e}%")
+
+    if num_discarded == 0:
+        plot_widths = dx - (domain[-1] - domain[0]) * 0.2 / (num_cuts)
+    else:
+        plot_widths = dx - (domain[-1] - domain[0]) * 0.2 / (
+            num_cuts - 2 * num_discarded
+        )
+
+    plt.figure(figsize=(18, 8))
     sns.set_context("paper", font_scale=1.5)
-    x_lims = (-3.5, 3.5)
-    y_lims = (0, 0.6)
-    x = np.linspace(*x_lims, n_realizaciones)
-    plt.plot(
-        x,
-        norm.pdf(x, scale=sigma / np.sqrt(n)),
-        alpha=0.9,
-        c="k",
-        ls="dashed",
-        label="Exacta",
-    )
-    sns.kdeplot(x=x_bar, alpha=0.9, c="b", label="Estimación KDE")
-    plt.hist(
-        x=x_bar,
-        rwidth=0.8,
-        alpha=0.5,
-        color="b",
-        bins="auto",
-        density=True,
-        label="Histograma",
-    )
-    rectangulo = Rectangle(
-        [-t, y_lims[0]],
-        2 * t,
-        y_lims[1] - y_lims[0],
-        alpha=0.5,
-        color="0.5",
-        label=fr"Cobertura $\sim${cobertura:.0f}%",
-    )
-    plt.vlines(
-        [-t, t],
-        *y_lims,
-        alpha=0.9,
-        colors="0.5",
-        ls="dashed",
-        label=r"CL 1$\sigma$ (68%)",
-    )
-    sns.rugplot(x=x_bar, alpha=0.25, c="b", clip_on=False, label="Realizaciones")
-    plt.gca().add_patch(rectangulo)
-    plt.xlabel(r"Estimador $\bar{x}$")
-    plt.ylabel("Densidad de probabilidad")
-    plt.xlim(*x_lims)
-    plt.ylim(y_lims[0] - 0.02, y_lims[1])
+    plt.bar(domain, observed / dx, width=plot_widths, alpha=0.5, label="Observado")
+    plt.plot(domain, expected / dx, label="Esperado")
+    plt.title("Test Chi-Cuadrado para Histogramas")
+    plt.xlabel(r"$x$")
+    plt.ylabel(r"Densidad")
+    plt.legend()
+    plt.show()
+    plt.close()
+
+    plt.figure(figsize=(18, 8))
+    sns.set_context("paper", font_scale=1.5)
+    plt.bar(domain, observed, width=plot_widths, alpha=0.5, label="Observado")
+    plt.plot(domain, expected, label="Esperado")
+    plt.title("Test Chi-Cuadrado para Histogramas")
+    plt.xlabel(r"$x$")
+    plt.ylabel(r"Frecuencia")
     plt.legend()
     plt.show()
     plt.close()

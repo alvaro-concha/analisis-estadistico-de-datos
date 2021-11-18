@@ -1,92 +1,63 @@
 """Ejercicio 5"""
 import numpy as np
-from matplotlib.path import Path
+from scipy.stats import norm
 import matplotlib.pyplot as plt
 import seaborn as sns
-import ipywidgets as widgets
-from IPython.display import display
-
-np.random.seed(42)
-
-
-def get_cov(sigma1, sigma2, rho):
-    """Calcula matriz de covarianza."""
-    return np.array(
-        [[sigma1 ** 2, rho * sigma1 * sigma2], [rho * sigma1 * sigma2, sigma2 ** 2]]
-    )
-
-
-def get_mu(mu1, mu2):
-    """Retorna vector de medias."""
-    return np.array([mu1, mu2])
-
-
-def plot_ej5(mu1, mu2, sigma1, sigma2, rho, n, CL):
-    """Grafica Ejercicio 5."""
-    mu = get_mu(mu1=mu1, mu2=mu2)
-    cov = get_cov(sigma1=sigma1, sigma2=sigma2, rho=rho)
-    x1, x2 = np.random.multivariate_normal(mean=mu, cov=cov, size=n).T
-    L = np.linalg.cholesky(cov)
-    t = np.linspace(0, 2 * np.pi, 1000)
-    r = np.sqrt(-2 * np.log(1 - CL * 0.01))
-    circulo = np.column_stack([np.cos(t), np.sin(t)])
-    elipse = r * circulo @ L.T + mu
-    probabilidad_aproximada = (
-        Path(elipse).contains_points(np.column_stack([x1, x2])).sum() / n * 100.0
-    )
-    sns.set_context("paper", font_scale=1.5)
-    g = sns.jointplot(x=x1, y=x2, alpha=5 / np.sqrt(n), height=8)
-    ax = g.ax_joint
-    ax.plot(*elipse.T, alpha=0.9, c="k")
-    ax.scatter(*mu, alpha=0.9, c="k")
-    text = (
-        rf"Tamaño de la elipse            {r:.1f}$\sigma$"
-        "\n"
-        f"Nivel de confianza exacto   {CL:.1f}%"
-        "\n"
-        f"Cobertura aproximada        {probabilidad_aproximada:.1f}%"
-    )
-    ax.text(x=0.05, y=1.0, s=text, ha="left", va="top", transform=ax.transAxes)
-    ax.set_xlim(3.0, 17.0)
-    ax.set_ylim(1.0, 15.0)
-    ax.set_xlabel(r"$x_1$")
-    ax.set_ylabel(r"$x_2$")
-    plt.show()
-    plt.close()
 
 
 def ej5():
     """Ejercicio 5."""
-    mu1 = widgets.FloatSlider(description="mu1", value=10.7, min=6.0, max=13.0)
-    mu2 = widgets.FloatSlider(description="mu2", value=8.3, min=6.0, max=13.0)
-    sigma1 = widgets.FloatSlider(description="sigma1", value=1.7, min=0.1, max=3.0)
-    sigma2 = widgets.FloatSlider(description="sigma2", value=2.4, min=0.1, max=3.0)
-    rho = widgets.FloatSlider(
-        description="rho", value=0.78, min=-0.99, max=0.99, step=0.01
-    )
-    n = widgets.IntSlider(description="n", value=10000, min=1000, max=10000, step=1000)
-    CL = widgets.FloatSlider(description="CL", value=95.0, min=1.0, max=99.0, step=1.0)
-    parameters = {
-        "mu1": mu1,
-        "mu2": mu2,
-        "sigma1": sigma1,
-        "sigma2": sigma2,
-        "rho": rho,
-        "n": n,
-        "CL": CL,
-    }
-    out = widgets.interactive_output(plot_ej5, parameters)
-    title = widgets.Label(
-        "Seleccionar parámetros",
-        layout=widgets.Layout(display="flex", justify_content="center"),
-    )
-    sliders = [title, *parameters.values()]
-    display(
-        widgets.HBox(
-            [out, widgets.VBox(sliders)],
-            layout=widgets.Layout(width="100%", display="flex", align_items="center"),
-        )
-    )
+    mu_0 = 110.6
+    sigma_0 = 24.8
+    mu_1 = 142.3
+    sigma_1 = 29.6
+    x_lims = (0, 250)
+    x = np.linspace(*x_lims, 10000)
+    f_0 = norm(loc=mu_0, scale=sigma_0).pdf
+    f_1 = norm(loc=mu_1, scale=sigma_1).pdf
+    phi = norm.cdf
+    x_c = (sigma_1 * mu_0 + sigma_0 * mu_1) / (sigma_0 + sigma_1)
+    alpha_c = phi((mu_0 - x_c) / sigma_0)
+    beta_c = phi((x_c - mu_1) / sigma_1)
+    precision_c = 1 - alpha_c
+    x_OMS = 126.0
+    alpha_OMS = phi((mu_0 - x_OMS) / sigma_0)
+    beta_OMS = phi((x_OMS - mu_1) / sigma_1)
+    cociente_OMS = alpha_OMS / beta_OMS
+    dif_rel_OMS = np.abs(alpha_OMS - beta_OMS) / (0.5 * (alpha_OMS + beta_OMS))
+    precision_OMS = 1 - alpha_OMS
+    prior = 0.35
+    likelihood = 1 - beta_OMS
+    marginal = alpha_OMS * (1 - prior) + (1 - beta_OMS) * prior
+    posterior = likelihood * prior / marginal
+
+    print(f"Valor critico:\tx_c = {x_c:.2f} mg/dl")
+    print(f"Error tipo I:\talpha_c = {alpha_c:.2f}")
+    print(f"Error tipo II:\tbeta_c = {beta_c:.2f}")
+    print(f"Precision:\tPrecision_c = {precision_c:.2f}")
+    print()
+    print(f"Valor OMS:\tx_OMS = {x_OMS:.2f} mg/dl")
+    print(f"Error tipo I:\talpha_OMS = {alpha_OMS:.2f}")
+    print(f"Error tipo II:\tbeta_OMS = {beta_OMS:.2f}")
+    print(f"Cociente:\talpha_OMS / beta_OMS = {cociente_OMS:.2f}")
+    print(f"Dif. relativa:\t{dif_rel_OMS:.2f}")
+    print(f"Precision:\tPrecision_OMS = {precision_OMS:.2f}")
+    print(f"Posterior:\t{posterior:.2f}")
+
+    plt.figure(figsize=(8, 8))
+    sns.set_context("paper", font_scale=1.5)
+    plt.plot(x, f_0(x), label=r"$f_0$")
+    plt.plot(x, f_1(x), label=r"$f_1$")
+    y_lims = plt.gca().get_ylim()
+    plt.vlines(x_c, *y_lims, ls="-", colors="k", label=r"$x_c$")
+    plt.vlines(x_OMS, *y_lims, ls="--", colors="k", label=r"$x_{\mathrm{OMS}}$")
+    plt.legend()
+    plt.title("Umbral de decisión")
+    plt.xlabel(r"$x$")
+    plt.ylabel(r"Densidad de probabilidad")
+    plt.savefig("tp6_ej5.pdf", bbox_inches="tight")
+    plt.show()
+    plt.close()
 
 
 if __name__ == "__main__":

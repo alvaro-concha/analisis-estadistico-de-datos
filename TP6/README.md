@@ -1,14 +1,14 @@
 # Ver Notebook aquí
 
-Ver la resolución del TP5 en el siguiente link:
+Ver la resolución del TP6 en el siguiente link:
 
-https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP5/CONCHA-TP5.ipynb?flush_cache=true
+https://nbviewer.jupyter.org/github/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP6/CONCHA-TP6.ipynb?flush_cache=true
 
-# Código del Ejercicio 7
+# Código del Ejercicio 5
 
-Ver el código del Ejercicio 7 en el siguiente link:
+Ver el código del Ejercicio 5 en el siguiente link:
 
-https://github.com/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP5/ej7.py
+https://github.com/alvaro-concha/analisis-estadistico-de-datos/blob/main/TP6/ej5.py
 
 # Información sobre ipywidgets
 
